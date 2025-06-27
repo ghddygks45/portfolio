@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <script src="../asset/js/jquery-3.6.0.min.js"></script>
+    <script src="../asset/js/jquery-ui.js"></script>
+    <script src="../asset/js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+    <title>홍요한 | 테스트</title>
+    <style>
+      .section {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .section:nth-child(even) {
+        background: #999;
+      }
+      .section:nth-child(odd) {
+        background: #111;
+      }
+      .section h1 {
+        position: absolute;
+        left: 100px;
+        top: 50px;
+        color: #fff;
+      }
+      div[class^="box"] {
+        width: 300px;
+        height: 300px;
+        color: #111;
+        background: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="section">
+      <h1>섹션 1번</h1>
+      <div class="box1">박스 1번</div>
+      <div class="box6">박스 6번</div>
+    </div>
+    <div class="section">
+      <h1>섹션 2번</h1>
+      <div class="box2">박스 2번</div>
+    </div>
+    <div class="section">
+      <h1>섹션 3번</h1>
+      <div class="box3">박스 3번</div>
+    </div>
+    <div class="section">
+      <h1>섹션 4번</h1>
+      <div class="box4">박스 4번</div>
+    </div>
+    <div class="section">
+      <h1>섹션 5번</h1>
+      <div class="box5">박스 5번</div>
+    </div>
+  </body>
+  <script>
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    gsap.to(".box1", {
+      x: 300,
+      scrollTrigger: {
+        trigger: ".box6",
+        start: "center center",
+        end: "bottom bottom",
+        markers: true,
+      },
+    });
+  </script>
+</html>

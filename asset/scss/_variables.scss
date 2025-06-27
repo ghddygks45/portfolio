@@ -1,0 +1,83 @@
+@import "reset";
+
+//
+// Global variables
+//
+
+// 사이트 기본 설정
+
+// breakpoints
+$breakpoints: (
+  "mobile": 576px,
+  // 모바일
+  "tablet": 768px,
+  // 태블릿
+  "desktop": 1200px,
+  // PC
+);
+
+// 트렌지션
+$transition-base: all 0.3s ease;
+
+// COLORS
+$white: #fff !default;
+$darkgray: #333 !default;
+$black: #111 !default;
+$gray: #aaa !default;
+
+$primary: #175eec !default;
+$secondary: #292c6f !default;
+
+$bg-primary: $primary !default;
+// $bg-darkprimary: $darkprimary !default;
+$bg-secondary: #fef5e5 !default;
+
+$border-base: #ddd !default;
+$border-dark: #aaa !default;
+$border-light: #f2f2f2 !default;
+// $border-active: $default;
+
+$btn-primary: $primary !default;
+$placeholder-color: #959595;
+
+//font
+$font-basic: "NotoSansKR", sans-serif;
+$font-primary: "Pretendard", sans-serif;
+$font-secondary: "SUIT", sans-serif;
+$font-english: "Cormorant", sans-serif;
+
+// font size scale (px 단위 기준)
+$font-size: (
+  "xs": 1.2rem,
+  // 12px
+  "sm": 1.4rem,
+  "base": 1.6rem,
+  "lg": 2rem,
+  "xl": 2.4rem,
+);
+
+$font-color-basic: #333;
+$font-color-black: #111;
+$font-color-primary: #292c6f;
+
+// 간격(패딩, 마진)
+$spacing-unit: 1rem;
+
+$spacing: (
+  "xs": $spacing-unit * 0.5,
+  // 0.5rem
+  "sm": $spacing-unit,
+  // 1rem
+  "md": $spacing-unit * 1.5,
+  // 1.5rem
+  "lg": $spacing-unit * 2,
+  // 2rem
+  "xl": $spacing-unit * 3 // 3rem,,,,,,,,,,
+);
+
+// 그림자
+$shadows: (
+  "sm": 0 1px 2px rgba(0, 0, 0, 0.1),
+  "md": 0 4px 6px rgba(0, 0, 0, 0.1),
+  "lg": 0 8px 16px rgba(0, 0, 0, 0.15),
+);

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <link rel="stylesheet" href="asset/css/common.css" />
+    <script src="asset/js/jquery-3.6.0.min.js"></script>
+    <script src="asset/js/jquery-ui.js"></script>
+    <script src="asset/js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
+    <title>홍요한 | 포트폴리오</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <!-- 인트로 로딩 시 첫 화면 -->
+      <!-- <div class="intro">
+        <ul class="intro_list">
+          <li>Markup</li>
+          <li>Structure</li>
+          <li>Trust</li>
+        </ul>
+        <div class="text_box">
+          <p>구조를 먼저 생각합니다.</p>
+          <p>표준을 지키며, 협업을 고려합니다.</p>
+          <p>그 결과는 신뢰로 이어집니다.</p>
+        </div>
+      </div> -->
+      <!-- // 인트로 로딩 시 첫 화면 -->
+
+      <!-- 헤더 -->
+      <div class="header_wrap">
+        <div class="header_box">
+          <header class="header">
+            <div class="logo_box">
+              <h1 class="logo"><a href="#">Y O H A N</a></h1>
+            </div>
+            <div class="gnb_wrap">
+              <div class="gnb_box">
+                <nav class="gnb">
+                  <ul>
+                    <li><a href="#content">Home</a></li>
+                    <li><a href="#About">About</a></li>
+                    <li><a href="#Work">Work</a></li>
+                    <li><a href="#Skills">Skills</a></li>
+                    <li><a href="#Contact">Contact</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </header>
+          <div class="menu_btn_box">
+            <button tpye="button" class="menu_btn"><span class="blind">메뉴 열기</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- // 헤더 -->
+
+      <!-- 컨텐츠 영역 -->
+      <div id="content">
+        <div class="section" id="home">
+          <div class="main_bg">
+            <video loop muted autoplay playsinline>
+              <source src="../asset/images/intro_bg_video.mp4" />
+            </video>
+          </div>
+          <div class="slogan_box">
+            <p class="time_ani1">유연한 마크업 구조.</p>
+            <p class="time_ani2">신뢰를 설계합니다.</p>
+            <p class="time_ani3">지속 가능한 퍼블리싱.</p>
+            <p class="time_ani4">안녕하세요. 홍요한 입니다.</p>
+          </div>
+        </div>
+
+        <div class="section" id="About">
+          <div class="inner">
+            <div class="tit_box">
+              <h2 class="title">About me</h2>
+            </div>
+            <div class="profile_box">
+              <div class="l">
+                <div class="img_box">
+                  <img src="../asset/images/img_yohan.jpg" alt="홍요한 퍼블리셔 사진" />
+                </div>
+              </div>
+              <div class="r">
+                <div class="profile_desc">
+                  <p>
+                    <b>퍼블리싱</b>
+                    은 단순한 마크업 작업이 아니라,
+                    <br />
+                    구조를 설계하고, 협업을 연결하는 과정이라고 생각합니다.
+                    <br />
+                    <br />
+                    저는 접근성과 유지보수성을 고려한 마크업을 추구하며, 디자이너와 개발자가 신뢰할 수 있는 결과물을 만드는 데 집중해왔습니다.
+                    <br />
+                    <br />
+                    작은 컴포넌트 하나도 모듈처럼 정리하며, 효율적이고 일관된 웹 구축을 지향합니다.
+                  </p>
+                </div>
+                <ul class="profile">
+                  <li>
+                    <strong>경력:</strong>
+                    3년차(공공·대기업·금융 프로젝트 중심)
+                  </li>
+                  <li>
+                    <strong>사용툴:</strong>
+                    Vscode, Git, Figma, Photoshop, SourceTree
+                  </li>
+                  <li>
+                    <strong>스킬:</strong>
+                    HTML5, SCSS, JS, React, 웹접근성, 크로스브라우징, 반응형 웹 등
+                  </li>
+                  <!-- <li>
+                    <strong>연락처</strong>
+                    :
+                    <ul class="contact_list">
+                      <li class="mail">
+                        <a href="mailto:ghdygks45@gmail.com" aria-label="메일 보내기">ghddygks45@gmail.com</a>
+                      </li>
+                      <li class="github">
+                        <a href="https://github.com/ghddygks45" target="_blank" aria-label="깃허브 들어가기">깃허브</a>
+                      </li>
+                      <li class="phone">
+                        <a href="tel:010-3034-2978" aria-label="전화걸기">연락하기</a>
+                      </li>
+                    </ul>
+                  </li> -->
+                </ul>
+              </div>
+            </div>
+            <div class="resume_box">
+              <a href="#;" class="resume" target="_blank">View More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="Work">
+          <div class="work_bg">
+            <video loop muted autoplay playsinline>
+              <source src="../asset/images/bg_space.mp4" />
+            </video>
+          </div>
+          <div class="inner">
+            <div class="work_box">
+              <div class="tit_box">
+                <h2 class="title white">WORK</h2>
+              </div>
+              <ul class="work_list">
+                <li>
+                  <a href="#;" target="_blank" title="인베스트코리아 바로가기">
+                    <div class="work_img_sec">
+                      <img src="../asset/images/img_pj_investkorea.png" alt="작억물1: 인베스트코리아" />
+                    </div>
+                  </a>
+                  <div class="work_dsec">
+                    <div class="work_subj">
+                      <span class="make">#구축</span>
+                    </div>
+                    <p>메인 페이지의 정보 구조 기획과 시각적 흐름을 고려하여, UI/UX 중심으로 퍼블리싱을 주도했습니다.</p>
+                    <span>#메인페이지 전담</span>
+                    <span>#UI 흐름 중심 설계</span>
+                    <span>#공통스타일 설계</span>
+                  </div>
+                </li>
+                <li>
+                  <a href="#;" target="_blank" title="한국무역보험공사 바로가기">
+                    <div class="work_img_sec">
+                      <img src="../asset/images/img_pj_hankuk.png" alt="작억물2: 한국무역보험공사" />
+                    </div>
+                  </a>
+                  <div class="work_dsec">
+                    <div class="work_subj">
+                      <span class="make">#구축</span>
+                    </div>
+                    <p>메인 페이지의 정보 구조 기획과 시각적 흐름을 고려하여, UI/UX 중심으로 퍼블리싱을 주도했습니다.</p>
+                    <span>#메인페이지 전담</span>
+                    <span>#UI 흐름 중심 설계</span>
+                    <span>#공통스타일 설계</span>
+                  </div>
+                </li>
+                <li>
+                  <a href="#;" target="_blank" title="사학연금 바로가기">
+                    <div class="work_img_sec">
+                      <img src="../asset/images/img_pj_sahak.png" alt="작억물3: 사학연금" />
+                    </div>
+                  </a>
+                  <div class="work_dsec">
+                    <div class="work_subj">
+                      <span class="make">#구축</span>
+                    </div>
+                    <p>메인 페이지의 정보 구조 기획과 시각적 흐름을 고려하여, UI/UX 중심으로 퍼블리싱을 주도했습니다.</p>
+                    <span>#메인페이지 전담</span>
+                    <span>#UI 흐름 중심 설계</span>
+                    <span>#공통스타일 설계</span>
+                  </div>
+                </li>
+                <li>
+                  <a href="#;" target="_blank" title="용인시 평생학습관 바로가기">
+                    <div class="work_img_sec">
+                      <img src="../asset/images/img_pj_yongin.png" alt="작억물4: 용인시 평생학습관" />
+                    </div>
+                  </a>
+                  <div class="work_dsec">
+                    <div class="work_subj">
+                      <span class="custom">#운영</span>
+                    </div>
+                    <p>메인 페이지의 정보 구조 기획과 시각적 흐름을 고려하여, UI/UX 중심으로 퍼블리싱을 주도했습니다.</p>
+                    <span>#메인페이지 전담</span>
+                    <span>#UI 흐름 중심 설계</span>
+                    <span>#공통스타일 설계</span>
+                  </div>
+                </li>
+              </ul>
+              <div class="work_btn_box">
+                <button type="button" class="work_more_btn">More</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="Skills">
+          <div class="inner">
+            <div class="tit_box">
+              <h2 class="title">Work Experience</h2>
+            </div>
+            <div class="skill_box">
+              <ul class="skill_list">
+                <li>
+                  <a href="work.html" data-img="#img1">
+                    <div class="skill_name_box">
+                      <strong>
+                        <b>POPUP</b>
+                        인베스트코리아
+                      </strong>
+                    </div>
+                    <p>
+                      <span>#HTML</span>
+                      <span>#HTTP</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                    </p>
+                  </a>
+                </li>
+                <li>
+                  <a href="work2.html" data-img="#img2">
+                    <div class="skill_name_box">
+                      <strong>
+                        <b>POPUP</b>
+                        인베스트코리아
+                      </strong>
+                    </div>
+                    <p>
+                      <span>#HTML</span>
+                      <span>#HTTP</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                    </p>
+                  </a>
+                </li>
+                <li>
+                  <a href="work2.html" data-img="#img3">
+                    <div class="skill_name_box">
+                      <strong>
+                        <b>POPUP</b>
+                        인베스트코리아
+                      </strong>
+                    </div>
+                    <p>
+                      <span>#HTML</span>
+                      <span>#HTTP</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                    </p>
+                  </a>
+                </li>
+                <li>
+                  <a href="work2.html" data-img="#img4">
+                    <div class="skill_name_box">
+                      <strong>
+                        <b>POPUP</b>
+                        인베스트코리아
+                      </strong>
+                    </div>
+                    <p>
+                      <span>#HTML</span>
+                      <span>#HTTP</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                      <span>#Javascript</span>
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="cursor">
+              <div class="img_box">
+                <div id="img1" class="image">
+                  <img src="../asset/images/img_kuksiwon_main.png" alt="" />
+                </div>
+                <div id="img2" class="image">
+                  <img src="../asset/images/img_pj_omb.png" alt="" />
+                </div>
+                <div id="img3" class="image">
+                  <img src="../asset/images/img_pj_newstore.png" alt="" />
+                </div>
+                <div id="img4" class="image">
+                  <img src="../asset/images/img_pj_sahak.png" alt="" />
+                </div>
+                <div id="img5" class="image">
+                  <img src="../asset/images/img_pj_seongdong.png" alt="" />
+                </div>
+                <div id="img6" class="image">
+                  <img src="../asset/images/img_pj_seoularts.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- // 컨텐츠 영역 -->
+
+      <div class="footer_wrap" id="Contact">
+        <footer class="footer">
+          <strong class="footer_slogan">
+            결과와 과정. 모두
+            <span class="highlight">만족스러운</span>
+            퍼블리셔가 되도록 하겠습니다.
+          </strong>
+          <ul class="footer_contact">
+            <li><a href="mailto:ghddygks45@gmail.com">e-mail</a></li>
+            <li><a href="https://github.com/ghddygks45" target="_blank" aria-label="깃허브 들어가기">GitHub</a></li>
+            <li><a href="tel:01030342978">Phone</a></li>
+          </ul>
+
+          <p class="footer_copyright">© 2025 yohan. All rights reserved.</p>
+        </footer>
+      </div>
+    </div>
+    <script>
+      // $(".section").each(function (index, elem) {
+      //   ScrollTrigger.create({
+      //     trigger: elem,
+      //     start: "top top",
+      //     end: "center center",
+      //     markers: true, // 위치 확인용
+      //   });
+      // });
+      $(".section").each(function (index, section) {
+        const $titBox = $(section).find(".tit_box");
+
+        gsap.from($titBox, {
+          scrollTrigger: {
+            trigger: section,
+            start: "top-=100 top",
+            end: "center center",
+          },
+          x: -100,
+          opacity: 0,
+          duration: 0.5,
+        });
+      });
+
+      let AboutTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#About",
+          start: "top-=100 top",
+          end: "bottom center",
+        },
+      });
+
+      let WorkTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#Work",
+          start: "top-=100 top",
+          end: "bottom center",
+        },
+      });
+
+      let SkillsTl = gsap.timeline();
+
+      let ContactTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#Contact",
+          start: "top top",
+          end: "bottom center",
+          markers: true,
+        },
+      });
+
+      AboutTl.from(".profile_box .l", { y: 100, opacity: 0, duration: 0.5, delay: 0.5 });
+      AboutTl.from(".profile_box .r", { y: 100, opacity: 0, duration: 0.5 });
+      AboutTl.from(".resume_box", { x: 100, opacity: 0, duration: 1.5, delay: 0.3 });
+
+      WorkTl.from(".work_list a", { rotate: 720, duration: 1, opacity: 0, delay: 0.5 });
+      WorkTl.from(".work_dsec", { y: 100, opacity: 0, duration: 0.5, delay: 0.5 });
+      WorkTl.from(".work_btn_box", { y: 100, opacity: 0, duration: 1.5, delay: 0.3 });
+
+      gsap.from(".skill_box", {
+        scrollTrigger: {
+          trigger: "#Skills",
+          start: "top top",
+          end: "bottom center",
+        },
+        clipPath: "inset(50% 0 50% 0)", // 좌우 50% → 중앙에서 점점 열림
+        duration: 1,
+        opacity: 0,
+        scale: 0.9,
+        ease: "power2.out",
+      });
+
+      const split = SplitText.create(".footer_slogan", {
+        type: "chars",
+        charsClass: "char",
+        reduceWhiteSpace: false,
+      });
+
+      ContactTl.from(".char", {
+        y: -20,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.out",
+        stagger: {
+          each: 0.05,
+          from: "start",
+        },
+      });
+
+      ContactTl.from(".footer_contact", { y: 100, opacity: 0, duration: 0.3 });
+      ContactTl.from(".footer_copyright", { y: 100, opacity: 0, duration: 0.1 });
+
+      ContactTl.to(
+        ".highlight .char",
+        {
+          y: -4 + "vw",
+          scale: 1.2,
+          color: "#6C5CE7",
+          duration: 1,
+          ease: "back.out(1.7)",
+          stagger: {
+            each: 0.05,
+            from: "center",
+          },
+        },
+        "+=0.3"
+      );
+
+      const lenis = new Lenis();
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+    </script>
+  </body>
+</html>

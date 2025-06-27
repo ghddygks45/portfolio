@@ -1,0 +1,1072 @@
+@import "reset";
+@import "font";
+@import "variables";
+@import "mixin";
+
+html {
+  font-size: 62.5%; /* 브라우저 기본 16px × 0.625 = 10px */
+  transition: font-size 0.3s ease;
+
+  @media (min-width: 576px) {
+    font-size: 62.5%; /* 10px */
+  }
+
+  @media (min-width: 768px) {
+    font-size: 65%; /* 10.4px */
+  }
+
+  @media (min-width: 992px) {
+    font-size: 68.75%; /* 11px */
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 75%; /* 12px */
+  }
+}
+body {
+  font-size: 1.6rem; // 10px
+  font-family: "NotoSansKR", sans-serif;
+}
+
+//*********공통 및 기타**********//
+
+#wrap {
+  overflow: hidden;
+}
+
+.blind {
+  position: absolute;
+  left: -1000%;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+.section {
+  &:not(:first-child) {
+    padding-top: 15rem;
+  }
+}
+
+.inner {
+  padding: 0 2rem;
+}
+
+.tit_box {
+  margin-bottom: 5rem;
+  .title {
+    color: $black;
+    font-size: 3.5rem;
+    font-family: $font-english;
+    font-weight: 500;
+    &.white {
+      color: $white;
+    }
+  }
+}
+
+//*********공통 및 기타(데스크탑)**********//
+
+@media (min-width: map-get($breakpoints, tablet)) {
+  .tit_box .title {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: map-get($breakpoints, desktop)) {
+  .tit_box {
+    margin-bottom: 4rem;
+    margin-left: 5rem;
+    .title {
+      font-size: 5rem;
+      &.white {
+        color: $white;
+      }
+    }
+  }
+
+  .inner {
+    padding: 0 5rem;
+  }
+}
+
+//*********모바일 영역**********//
+
+// HEADER - 모바일
+.header_wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: $transition-base;
+  z-index: 10000;
+
+  &.up {
+    top: -100%;
+  }
+  &.down {
+    top: 0;
+    // backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+    &.shadow {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .header_box {
+    padding: 0 3rem;
+  }
+}
+
+.header {
+  .logo_box {
+    .logo {
+      > a {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        height: 80px;
+        word-spacing: 1rem;
+        color: $white;
+        font-family: pretendard;
+        font-weight: bold;
+      }
+    }
+  }
+  .gnb_wrap {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: $white;
+    opacity: 0;
+    transition: top 0.6s ease 0.3s, opacity 0.3s ease 0.6s;
+    &.open {
+      top: 0;
+      opacity: 1;
+    }
+    .gnb_box {
+      .gnb {
+        > ul {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          height: 100vh;
+          > li {
+            > a {
+              position: relative;
+              display: inline-block;
+              padding: 2rem;
+              color: $black;
+              font-size: 2.5rem;
+              font-family: $font-english;
+              font-weight: 500;
+              transition: $transition-base;
+              &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 100%;
+                width: 100%;
+                height: 8px;
+                background: rgba(0, 0, 0, 0.1);
+                filter: blur(4px);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: -1;
+              }
+              &:hover {
+                transform: translateY(-10px);
+                text-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+                &:after {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.menu_btn_box {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    .menu_btn {
+      &:before,
+      &:after {
+        width: 30px;
+      }
+    }
+  }
+  &.active {
+    &:hover,
+    &:focus {
+      .menu_btn {
+        width: 0;
+      }
+    }
+    .menu_btn {
+      width: 0;
+      background: $black;
+      &:before,
+      &:after {
+        width: 30px;
+        background: $black;
+      }
+      &:before {
+        top: calc(50% - 1px);
+        transform: rotate(45deg);
+      }
+      &:after {
+        bottom: calc(50% - 1px);
+        transform: rotate(135deg);
+      }
+    }
+  }
+  &:not(.active) {
+    .menu_btn {
+      transition: width 0.3s ease 0.9s;
+    }
+  }
+  .menu_btn {
+    width: 30px;
+    height: 2px;
+    background: $white;
+    transition: $transition-base;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      display: block;
+      width: 20px;
+      background: $white;
+      height: 2px;
+      transition: width ease 0.3s, top 0.3s ease 0.3s, bottom 0.3s ease 0.3s,
+        transform 0.3s ease 0.6s;
+    }
+
+    &:before {
+      top: 10px;
+    }
+    &:after {
+      bottom: 10px;
+    }
+  }
+}
+
+// 다른곳
+// .gnb_wrap {
+//   padding-right: 10rem;
+//   background: transparent;
+//   @media (max-width: map-get($breakpoints, tablet)) {
+//     transition: none;
+//   }
+
+//   .gnb_box {
+//     .gnb {
+//       > ul {
+//         display: flex;
+//         justify-content: end;
+//       }
+//     }
+//   }
+// }
+
+// 다른곳
+// .gnb {
+//   > ul {
+//     > li {
+//       &:not(:last-child) {
+//         margin-right: 100px;
+//         transition: $transition-base;
+//         @media (max-width: map-get($breakpoints, tablet)) {
+//           transition: none;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// HEADER - 테블릿
+@media (min-width: map-get($breakpoints, tablet)) {
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .logo_box {
+      .logo {
+        position: relative;
+        &:after {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 80%;
+          width: 100%;
+          height: 8px;
+          background: rgba(0, 0, 0, 0.1);
+          filter: blur(4px);
+          z-index: -1;
+        }
+        > a {
+          font-size: 2.5rem;
+        }
+      }
+    }
+    .gnb_wrap {
+      position: static;
+      opacity: 1;
+      width: auto;
+      height: auto;
+      background: transparent;
+      .gnb_box .gnb > ul {
+        flex-direction: row;
+        height: auto;
+        gap: 3rem;
+        li > a {
+          color: $white;
+          padding: 0;
+          font-size: 2rem;
+          &:after {
+            display: none;
+          }
+          &:before {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: $white;
+            transition: width 0.3s ease;
+          }
+          &:hover {
+            transform: none;
+            &:before {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+  .menu_btn_box {
+    display: none;
+  }
+}
+
+// HEADER - 데스크탑
+@media (min-width: map-get($breakpoints, desktop)) {
+  .header_wrap .header_box {
+    padding: 0 5rem;
+  }
+  .header .logo_box .logo > a {
+    height: 110px;
+    font-size: 3rem;
+  }
+  .header .gnb_wrap .gnb_box .gnb > ul li > a {
+    font-size: 2.3rem;
+  }
+}
+
+// home - 섹션
+#home {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  padding: 8rem 0;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  .main_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .slogan_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    [class^="time_ani"] {
+      position: absolute;
+      color: $white;
+      font-size: 2rem;
+      font-family: $font-primary;
+      line-height: 3.5rem;
+      opacity: 0;
+    }
+    .my_skills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 1.4rem;
+      > li {
+        color: $white;
+        &:not(:first-child) {
+          position: relative;
+          padding-left: 1rem;
+          &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 0.5rem;
+            width: 1px;
+            height: 1rem;
+            background: $gray;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+}
+
+// About-me - 섹션
+#About {
+  .inner {
+    position: relative;
+  }
+}
+
+.profile_box {
+  .img_box {
+    width: 30rem;
+    height: 30rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: width 0.5s ease, height 0.5s ease, border 0.5s ease;
+    img {
+      max-width: 100%;
+    }
+  }
+  .profile {
+    position: relative;
+    padding-top: 12rem;
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 6rem;
+      left: 50%;
+      width: 100%;
+      height: 1px;
+      background: $gray;
+      transform: translateX(-50%);
+      transition: width 0.5s ease;
+    }
+    > li {
+      position: relative;
+      display: flex;
+      padding-left: 1rem;
+      color: $font-color-basic;
+      font-size: 1.8rem;
+      gap: 0.5rem;
+      &:not(:first-child) {
+        margin-top: 1rem;
+      }
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 13px;
+        left: 0;
+        width: 3px;
+        height: 3px;
+        background: $black;
+      }
+      > strong {
+        color: $font-color-black;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+.profile_desc {
+  margin-top: 5rem;
+  > p {
+    color: $font-color-basic;
+    font-size: 2rem;
+    line-height: 3rem;
+    > b {
+      color: $font-color-primary;
+    }
+  }
+}
+
+.resume_box {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  .resume {
+    position: relative;
+    color: $font-color-black;
+    font-size: 1.6rem;
+    font-family: $font-english;
+    font-weight: 500;
+    &:focus,
+    &:hover {
+      &:after {
+        width: calc(100% + 15px);
+      }
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: $black;
+      transition: width 0.5s ease;
+    }
+  }
+}
+
+.edu_box {
+  margin-top: 2rem;
+  > strong {
+    color: $font-color-black;
+    font-family: $font-primary;
+    font-size: 2rem;
+  }
+}
+
+// Work - 섹션
+#Work {
+  position: relative;
+  padding: 20rem 0;
+  margin-top: 15rem;
+  overflow: hidden;
+
+  .work_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+    }
+    video {
+      height: 100%;
+    }
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.work_box {
+  .work_list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    row-gap: 20rem;
+    > li {
+      display: none;
+    }
+    a {
+      display: block;
+    }
+  }
+  .work_img_sec {
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease;
+    &:hover,
+    &:focus {
+      transform: rotate(-15deg);
+    }
+    img {
+      max-width: 100%;
+      border-radius: 100%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+        0 0 20px rgba(255, 255, 255, 0.15);
+      animation: float 2.5s ease-in-out infinite;
+    }
+  }
+  .work_dsec {
+    margin-top: 4rem;
+    color: $white;
+    .work_subj {
+      .make {
+        display: inline-block;
+        padding: 0.3rem 2rem;
+        border: solid 1px #e0f7fa;
+        border-radius: 5px;
+        color: #e0f7fa;
+        box-shadow: 0 0 8px rgba(0, 191, 255, 0.4),
+          0 0 16px rgba(0, 191, 255, 0.2);
+      }
+      .custom {
+        display: inline-block;
+        padding: 0.3rem 2rem;
+        border: solid 1px #ffe0b2;
+        border-radius: 5px;
+        color: #ffe0b2;
+        box-shadow: 0 0 8px rgba(255, 165, 0, 0.4),
+          0 0 16px rgba(255, 140, 0, 0.2);
+      }
+    }
+    > p {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+    > span {
+      display: inline-block;
+      color: #ffe0b2;
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+  .work_btn_box {
+    margin-top: 8rem;
+    text-align: center;
+    .work_more_btn {
+      position: relative;
+      display: inline-block;
+      width: 15rem;
+      padding: 1rem 2rem;
+      border: solid 1px $white;
+      border-radius: 10px;
+      background: transparent;
+      color: $white;
+      font-family: $font-english;
+      font-size: 2rem;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.4),
+        0 0 16px rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      transition: color 0.3s ease;
+      &:hover {
+        color: $black;
+        font-weight: 500;
+        &:before {
+          top: 0;
+        }
+      }
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: $white;
+        transition: top 0.1s ease;
+        z-index: -1;
+      }
+    }
+  }
+}
+
+.cursor {
+  .img_box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    width: 400px;
+    height: 0;
+    background-size: cover;
+    pointer-events: none;
+    transition: height 0.5s, opacity 0.5s 0.1s;
+    &.on {
+      height: 200px;
+      opacity: 1;
+      transition: height 0.5s 0.1s, opacity 0.5s;
+    }
+    .image {
+      width: 100%;
+      height: 0;
+      overflow: hidden;
+      transition: height 1s;
+      &.on {
+        height: 100%;
+        > img {
+          transform: scale(1);
+        }
+      }
+      > img {
+        max-width: 100%;
+        transform: scale(1.5);
+        transition: transform 1s 0.2s ease-out;
+      }
+    }
+  }
+}
+
+// Skills - 섹션
+
+#Skills {
+  .inner {
+    padding: 0;
+  }
+  .tit_box {
+    padding: 0 2rem;
+  }
+}
+
+.skill_box {
+  position: relative;
+  .move_link {
+    position: absolute;
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 99;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    > img {
+      max-width: 100%;
+      width: 400px;
+      height: 400px;
+    }
+    > span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      color: $white;
+      font-size: 5rem;
+      font-family: $font-primary;
+      font-weight: 500;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+  }
+  .skill_list {
+    > li {
+      &:not(:last-child) {
+        position: relative;
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 2rem;
+          display: block;
+          width: calc(100% - 4rem);
+          height: 1px;
+          background: #efefef;
+        }
+      }
+      > a {
+        display: flex;
+        width: 100%;
+        padding: 2rem;
+        gap: 1rem;
+        background: $darkgray;
+        align-items: center;
+        min-height: 10rem;
+        word-break: break-word;
+        &:hover,
+        &:focus {
+          .skill_name_box {
+            strong {
+              color: #ffe0b2;
+              > b:before {
+                background: #ffe0b2;
+              }
+            }
+          }
+        }
+        .skill_name_box {
+          flex-shrink: 0;
+          > strong {
+            color: $white;
+            font-weight: 400;
+            transition: color 0.5s ease;
+            > b {
+              position: relative;
+              font-family: $font-english;
+              font-size: 2rem;
+              margin-right: 15px;
+              &:before {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                right: -11px;
+                width: 1px;
+                height: calc(100% - 8px);
+                background: #efefef;
+                transform: translateY(4px);
+                transition: background 0.5s ease;
+              }
+            }
+          }
+        }
+        > p {
+          flex: 1;
+          color: #e1e1e1;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+// FOOTER
+.footer_wrap {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  padding: 0 2rem;
+  justify-content: center;
+  align-items: center;
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .footer_slogan {
+      margin-bottom: clamp(3rem, 6vw, 10rem);
+      flex-wrap: wrap;
+      text-align: center;
+      font-size: clamp(2rem, 3vw, 6rem);
+      font-weight: 600;
+    }
+    .footer_contact {
+      display: flex;
+      justify-content: space-around;
+      gap: 4rem;
+      > li {
+        > a {
+          color: #a9a9a9;
+          transition: color ease 0.3s;
+          &:hover,
+          &:focus {
+            color: $black;
+          }
+        }
+      }
+    }
+    .footer_copyright {
+      margin-top: 1rem;
+      padding: 0 2rem;
+      color: #a9a9a9;
+    }
+  }
+}
+
+// 섹션 - 테블릿
+@media (min-width: map-get($breakpoints, tablet)) {
+  // About-me - 테블릿
+  .resume_box .resume {
+    font-size: 2rem;
+  }
+
+  .profile_box .img_box {
+    width: 35rem;
+    height: 35rem;
+  }
+
+  // Work - 테블릿
+  // Skills - 테블릿
+  .skill_box .skill_list > li {
+    &:after {
+      width: calc(100% - 6rem);
+    }
+    > a {
+      gap: 5rem;
+      padding: 3rem;
+      font-size: 2rem;
+      .skill_name_box > strong {
+        > b {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+
+  .work_box {
+    .work_list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8rem;
+      > li {
+        flex: 0 0 calc(50% - 4rem);
+      }
+    }
+    .work_btn_box {
+      .work_more_btn {
+        width: 20rem;
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
+
+// 섹션 - 데스크탑
+@media (min-width: map-get($breakpoints, desktop)) {
+  // home - 데스크탑
+  #home .slogan_box [class^="time_ani"] {
+    font-size: 2.5rem;
+    line-height: 4.5rem;
+  }
+
+  // About-me - 데스크탑
+  .profile_box {
+    display: flex;
+    gap: 5rem;
+    .r {
+      flex: 1;
+    }
+    .img_box {
+      border-radius: 5rem;
+      width: 45rem;
+      height: 50rem;
+    }
+    .profile {
+      &:before {
+        background: $black;
+        height: 1px;
+        left: 0;
+        transform: none;
+        width: 30%;
+      }
+    }
+  }
+
+  .profile_desc {
+    margin-top: 0;
+  }
+
+  .resume_box {
+    right: 5rem;
+    .resume {
+      font-size: 3rem;
+      &:focus,
+      &:hover {
+        &:after {
+          width: calc(100% + 30px);
+        }
+      }
+    }
+  }
+
+  // Work - 데스크탑
+
+  #Work {
+    padding: 20rem 0;
+    .inner {
+      padding: 0 5rem;
+    }
+  }
+
+  .work_box {
+    .work_list {
+      column-gap: 4rem;
+      row-gap: 15rem;
+      > li {
+        flex: 0 0 calc(33.3% - 3rem);
+      }
+    }
+    .work_btn_box {
+      margin-top: 10rem;
+      .work_more_btn {
+        font-size: 3rem;
+      }
+    }
+  }
+
+  // Skills - 데스크탑
+  .skill_box .skill_list > li {
+    &:after {
+      width: calc(100% - 10rem);
+    }
+    > a {
+      padding: 5rem;
+      font-size: 2.2rem;
+      .skill_name_box > strong {
+        > b {
+          font-size: 2.2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1600px) {
+  .inner {
+    padding: 0 10rem;
+  }
+}
+
+// 키프레임
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
