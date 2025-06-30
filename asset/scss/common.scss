@@ -584,28 +584,52 @@ body {
   position: relative;
   padding: 20rem 0;
   margin-top: 15rem;
+  background: #10141c;
   overflow: hidden;
-
-  .work_bg {
+  &::before,
+  &::after {
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1;
-    }
-    video {
-      height: 100%;
-    }
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(
+      circle,
+      rgba(0, 191, 255, 0.06) 0%,
+      transparent 60%
+    );
+    animation: waveMove 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
   }
+
+  &::after {
+    animation-delay: 10s;
+    transform: rotate(60deg);
+  }
+
+  // .work_bg {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   &:after {
+  //     content: "";
+  //     position: absolute;
+  //     display: block;
+  //     top: 0;
+  //     left: 0;
+  //     width: 100%;
+  //     height: 100%;
+  //     background: rgba(0, 0, 0, 0.7);
+  //     z-index: 1;
+  //   }
+  //   video {
+  //     height: 100%;
+  //   }
+  // }
   .inner {
     position: relative;
     z-index: 1;
@@ -620,25 +644,48 @@ body {
     row-gap: 20rem;
     > li {
       display: none;
+      flex-direction: column;
+      height: 100%;
     }
     a {
-      display: block;
+      flex-shrink: 0;
     }
   }
   .work_img_sec {
     position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background: #fff;
+    border-radius: 100%;
     text-align: center;
-    transition: transform 0.3s ease;
-    &:hover,
-    &:focus {
-      transform: rotate(-15deg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: float 2.5s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.4),
+        0 0 30px rgba(0, 191, 255, 0.2), 0 0 45px rgba(0, 191, 255, 0.1);
+      > img {
+        transform: translate(-50%, -50%) scale(1.08);
+      }
     }
     img {
-      max-width: 100%;
-      border-radius: 100%;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
-        0 0 20px rgba(255, 255, 255, 0.15);
-      animation: float 2.5s ease-in-out infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.4s ease;
+    }
+    &.w_auto {
+      img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+      }
     }
   }
   .work_dsec {
@@ -662,6 +709,15 @@ body {
         color: #ffe0b2;
         box-shadow: 0 0 8px rgba(255, 165, 0, 0.4),
           0 0 16px rgba(255, 140, 0, 0.2);
+      }
+      .mainpage {
+        display: inline-block;
+        padding: 0.3rem 2rem;
+        border: solid 1px #c8e6c9;
+        border-radius: 5px;
+        color: #c8e6c9;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.4),
+          0 0 16px rgba(56, 142, 60, 0.2);
       }
     }
     > p {
@@ -696,7 +752,7 @@ body {
       overflow: hidden;
       transition: color 0.3s ease;
       &:hover {
-        color: $black;
+        color: #10141c;
         font-weight: 500;
         &:before {
           top: 0;
@@ -730,6 +786,8 @@ body {
     background-size: cover;
     pointer-events: none;
     transition: height 0.5s, opacity 0.5s 0.1s;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     &.on {
       height: 200px;
       opacity: 1;
@@ -813,15 +871,15 @@ body {
           display: block;
           width: calc(100% - 4rem);
           height: 1px;
-          background: #efefef;
+          background: #2f2f2f;
         }
       }
       > a {
         display: flex;
         width: 100%;
         padding: 2rem;
-        gap: 1rem;
-        background: $darkgray;
+        gap: 2rem;
+        background: #1e1e1e;
         align-items: center;
         min-height: 10rem;
         word-break: break-word;
@@ -829,17 +887,17 @@ body {
         &:focus {
           .skill_name_box {
             strong {
-              color: #ffe0b2;
+              color: #ffd180;
               > b:before {
-                background: #ffe0b2;
+                background: #ffd180;
               }
             }
           }
         }
         .skill_name_box {
-          flex-shrink: 0;
+          flex: 1;
           > strong {
-            color: $white;
+            color: #f0f0f0;
             font-weight: 400;
             transition: color 0.5s ease;
             > b {
@@ -855,7 +913,7 @@ body {
                 right: -11px;
                 width: 1px;
                 height: calc(100% - 8px);
-                background: #efefef;
+                background: #3f3f3f;
                 transform: translateY(4px);
                 transition: background 0.5s ease;
               }
@@ -864,7 +922,7 @@ body {
         }
         > p {
           flex: 1;
-          color: #e1e1e1;
+          color: #b0b0b0;
           text-align: right;
         }
       }
@@ -1021,10 +1079,10 @@ body {
 
   .work_box {
     .work_list {
-      column-gap: 4rem;
+      column-gap: 8rem;
       row-gap: 15rem;
       > li {
-        flex: 0 0 calc(33.3% - 3rem);
+        flex: 0 0 calc((100% - 16rem) / 3);
       }
     }
     .work_btn_box {
@@ -1056,6 +1114,9 @@ body {
   .inner {
     padding: 0 10rem;
   }
+  #Work .inner {
+    padding: 0 10rem;
+  }
 }
 
 // 키프레임
@@ -1068,5 +1129,17 @@ body {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes waveMove {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10%, 10%) rotate(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
   }
 }

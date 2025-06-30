@@ -73,7 +73,10 @@ $(function () {
   });
 
   // 백그라운드 비디오 속도
-  $(".main_bg video").get(0).playbackRate = 0.5;
+  const videoEl = $(".main_bg video").get(0);
+  if (videoEl) {
+    videoEl.playbackRate = 0.5;
+  }
   // $(".work_bg video").get(0).playbackRate = 0.5;
 
   // gsap
@@ -137,25 +140,26 @@ $(function () {
   // 로드 시 일부만 보여주기
   items.each((item, index) => {
     if (item < RoadworkCount) {
-      $(index).fadeIn(); // display: block
+      $(index).fadeIn().css("display", "flex");
     }
   });
 
   // 더보기 클릭 시 전체 보여주기
   $(document).on("click", ".work_more_btn", function () {
     items.each((item, index) => {
-      $(index).fadeIn();
+      $(index).fadeIn().css("display", "flex");
     });
     $(".work_more_btn").fadeOut();
   });
 
+  // 리사이즈 시 다시 조정
   $(window).on("resize", function () {
-    const newCount = workCount(); // 현재 뷰포트 크기에 맞는 개수
+    const newCount = workCount();
 
     if ($(".work_more_btn").is(":visible")) {
       items.each(function (i) {
         if (i < newCount) {
-          $(this).fadeIn();
+          $(this).fadeIn().css("display", "flex");
         } else {
           $(this).fadeOut();
         }
@@ -212,4 +216,14 @@ $(function () {
   });
 
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+  // 부드러운 스크롤
+  const lenis = new Lenis();
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
 });

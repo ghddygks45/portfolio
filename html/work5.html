@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <link rel="stylesheet" href="../asset/css/common.css" />
+    <link rel="stylesheet" href="../asset/css/pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="../asset/js/jquery-3.6.0.min.js"></script>
+    <script src="../asset/js/jquery-ui.js"></script>
+    <script src="../asset/js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <title>탭 + 슬라이드 연동 | Work Experience</title>
+  </head>
+  <script>
+    var isMobile = false;
+    var isDesktop = false;
+
+    // 디바이스 타입 체크 함수
+    function checkDevice() {
+      if (window.innerWidth < 768) {
+        // 모바일 영역
+        isMobile = true;
+        isDesktop = false;
+      } else {
+        // 데스크탑 영역
+        isMobile = false;
+        isDesktop = true;
+      }
+    }
+
+    // 디바이스 체크 최초 실행
+    checkDevice();
+
+    $(function () {
+      // resize 시 resizeEnd 이벤트 발생
+      $(window).resize(function () {
+        if (this.resizeTO) {
+          clearTimeout(this.resizeTO);
+        }
+        this.resizeTO = setTimeout(function () {
+          $(this).trigger("resizeEnd");
+        }, 200);
+      });
+
+      // resizeEnd 시 디바이스 타입 재체크
+      $(window).on("resizeEnd", function () {
+        checkDevice();
+      });
+
+      // 슬라이드 실행
+      var tabswiper = new Swiper(".slide", {
+        slidesPerView: 1,
+        centeredSlides: true,
+        loop: true,
+        breakpoints: {
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        },
+      });
+
+      // 탭 클릭시 해당 슬라이드로 이동
+      function handleTabClick(targetSelector, slideIndex, loopIndex) {
+        $(targetSelector).on("click", function (e) {
+          e.preventDefault();
+
+          var dataAttr = $(this).attr("data");
+
+          $(".tab a").removeClass("active");
+          $(this).addClass("active");
+
+          tabswiper.slideToLoop(loopIndex, 900);
+
+          setTimeout(function () {
+            $(".swiper-slide-active[data=" + dataAttr + "]")
+              .find(">a")
+              .focus();
+          }, 900);
+        });
+      }
+
+      // 탭 클릭시 해당 슬라이드로 이동
+      $(".tab>a").on("click", function () {
+        $(".tab>a").attr("title", "");
+        $(this).attr("title", "선택됨");
+
+        handleTabClick(".slide1", 0, 0);
+        handleTabClick(".slide2", 3, 3);
+        handleTabClick(".slide3", 6, 6);
+      });
+
+      // swiper loop이용시 포커스 재 정립 - 접근성 강화
+      $(document).on("keydown", function (e) {
+        var $focus = $(document.activeElement);
+        var $slideFirstIndex = $(".slide .swiper-slide[data-swiper-slide-index='0']");
+        var lastIndex = $(".slide .swiper-slide").length - 1;
+        var $slideLastIndex = $(".slide .swiper-slide[data-swiper-slide-index='" + lastIndex + "']");
+        var $slideFirstDom = $(".slide .swiper-slide").first();
+        var $slideLastDom = $(".slide .swiper-slide").last();
+        var $prevTab = $(".tab a").last();
+        var $nextTab = $(".code_tab button").first();
+
+        if (isMobile) {
+          // TAB (shift 없이)
+          if (e.key === "Tab" && !e.shiftKey) {
+            // 1번 슬라이드로 이동
+            if ($focus[0] === $prevTab[0]) {
+              e.preventDefault();
+              $slideFirstIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 마지막 Dom 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideLastDom[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 마지막 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] == $slideLastIndex[0]) {
+              e.preventDefault();
+              $nextTab.focus();
+            }
+          }
+
+          if (e.key === "Tab" && e.shiftKey) {
+            // 마지막 슬라이드로 이동
+            if ($focus[0] === $nextTab[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 맨 앞 (8번)에 Shift+Tab 하면 마지막(7)로 가게
+            if ($focus.closest(".swiper-slide")[0] === $slideLastIndex[0]) {
+              e.preventDefault();
+              $slideLastDom.find("a, button, input, [tabindex]").last().focus();
+            }
+
+            if ($focus.closest(".swiper-slide")[0] == $slideFirstIndex[0]) {
+              e.preventDefault();
+              $prevTab.focus();
+            }
+          }
+        } else if (isDesktop) {
+          console.log("데스크탑에서만 실행");
+
+          if (e.key === "Tab" && !e.shiftKey) {
+            // 1번 슬라이드로 이동
+            if ($focus[0] === $prevTab[0]) {
+              e.preventDefault();
+              $slideFirstIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+            // swiper 마지막 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideLastIndex[0]) {
+              e.preventDefault();
+              $nextTab.focus();
+            }
+          }
+          if (e.key === "Tab" && e.shiftKey) {
+            // 마지막 슬라이드로 이동
+            if ($focus[0] === $nextTab[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 첫번째 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideFirstIndex[0]) {
+              e.preventDefault();
+              $prevTab.focus();
+            }
+
+            tabswiper.on("slideChange", function () {
+              setTimeout(function () {
+                $(".slide .swiper-slide-active").find("a, button, input, [tabindex]").first().focus();
+              });
+            });
+          }
+        }
+      });
+    });
+  </script>
+  <body>
+    <div id="wrap">
+      <section class="work_detail">
+        <div class="inner">
+          <h2 class="work_title">접근성을 고려한 탭 + 슬라이드 연동</h2>
+          <div class="work_contents">
+            <div class="slide_section">
+              <div class="tab">
+                <a href="#;" class="slide1 active" data="slide1" title="선택됨"><span>학사과정</span></a>
+                <a href="#;" class="slide2" data="slide2" title=""><span>전문학사과정</span></a>
+                <a href="#;" class="slide3" data="slide3" title=""><span>전문기술석사과정</span></a>
+              </div>
+              <div class="xscroll">
+                <div class="slide">
+                  <ul class="swiper-wrapper">
+                    <li class="swiper-slide" data="slide1">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide01.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목1</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide02.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목2</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide03.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목3</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide" data="slide2">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide04.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목4</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide05.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목5</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide06.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목6</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide" data="slide3">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide07.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목7</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="swiper-slide">
+                      <a href="#;">
+                        <div class="img">
+                          <img src="../asset/images/img_slide08.jpg" alt="" />
+                        </div>
+                        <div class="txt">
+                          <h3>제목8</h3>
+                          <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="work_tags">
+            <span>#탭UI</span>
+            <span>#swiper 연동</span>
+            <span>#loop 접근성 대응</span>
+          </div>
+
+          <p class="code_notice">※ 이 코드는 PC 환경에서 확인 시 더 깔끔하게 보입니다.</p>
+          <div class="code_section">
+            <div class="code_tab">
+              <button data-type="html" class="on">HTML</button>
+              <button data-type="css">CSS</button>
+              <button data-type="js">JS</button>
+            </div>
+            <div class="code_content">
+              <pre class="code_box html on"><code>&lt;!-- HTML 코드 예시 --&gt;</code></pre>
+              <pre class="code_box css"><code>.slide_section {
+  width: 100%;
+
+  .tab {
+    a {
+      display: inline-block;
+      color: #aaa;
+      font-size: 15px;
+      font-weight: 500;
+
+      &:not(:first-child) {
+        margin-left: 17px;
+      }
+
+      &.active {
+        color: #fff;
+
+        span:before {
+          width: calc(100% + 4px);
+        }
+      }
+
+      span {
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+
+        &:before {
+          content: "";
+          position: absolute;
+          bottom: 2px;
+          left: -2px;
+          width: 0;
+          height: 4px;
+          background: #f8a700;
+          transition: 0.3s ease-in-out;
+          z-index: -1;
+        }
+      }
+    }
+  }
+
+  .slide {
+    margin-top: 10px;
+    padding: 0 10px;
+
+    &.swiper-container {
+      overflow: visible;
+    }
+
+    .slick-list {
+      overflow: visible;
+    }
+
+    .slick-track {
+      display: flex;
+      align-items: center;
+    }
+
+    .swiper-wrapper {
+      align-items: center;
+    }
+
+    .swiper-slide {
+      position: relative;
+      padding: 45px 15px;
+      transition: all 1s;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transform: none;
+
+      > a {
+        position: relative;
+        display: block;
+        transition: all 1s;
+        width: 100%;
+        height: 0;
+        padding-bottom: 70%;
+        overflow: hidden;
+      }
+
+      .img {
+        position: absolute;
+        top: 0%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        img {
+          width: 100%;
+        }
+
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          transition: 0.4s linear;
+        }
+
+        &:before {
+          background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        &:after {
+          background: transparent url(../../asset/images/bg_slide_active.png) 0
+            100% no-repeat;
+          background-size: 100% 100%;
+          opacity: 0;
+          bottom: -100%;
+        }
+      }
+
+      .txt {
+        width: 100%;
+        padding: 0 20px;
+        position: absolute;
+        left: 0;
+        top: 20px;
+        color: #fff;
+        z-index: 1;
+        transition: all 1s;
+
+        h3 {
+          font-size: 17px;
+          font-weight: 700;
+          color: #aaa;
+        }
+
+        p {
+          opacity: 0;
+          visibility: hidden;
+          display: none;
+          font-size: 13px;
+          margin-top: 10px;
+          line-height: 19px;
+          transition: 0.4s ease-in-out;
+          transition: all 1s;
+        }
+      }
+
+      &.swiper-slide-active {
+        width: 680px;
+        padding: 0 15px;
+
+        a {
+          position: relative;
+          max-width: initial;
+          padding: 0;
+          padding-bottom: 88%;
+          box-shadow: 20px 20px 15px rgba(0, 0, 0, 0.35);
+        }
+
+        .img {
+          &:before {
+            opacity: 0;
+            visibility: hidden;
+          }
+
+          &:after {
+            opacity: 1;
+            bottom: 0;
+          }
+        }
+
+        .txt {
+          top: auto;
+          bottom: 20px;
+
+          h3 {
+            color: #fff;
+          }
+
+          p {
+            opacity: 1;
+            visibility: visible;
+            display: block;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+          }
+        }
+      }
+
+      a:focus {
+        outline: solid 1px #f8a700;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .xscroll {
+      overflow-x: hidden;
+    }
+
+    .tab {
+      a.active {
+        span:before {
+          width: 105%;
+        }
+      }
+    }
+
+    .slide {
+      .swiper-slide {
+        padding: 100px 40px;
+
+        &.swiper-slide-active {
+          padding: 0 45px;
+
+          a {
+            position: relative;
+            transform: translate(-112px, 0px);
+            width: calc(100% + 225px);
+            max-width: initial;
+            padding: 0;
+            padding-bottom: 132%;
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+              <pre class="code_box js"><code>var isMobile = false;
+    var isDesktop = false;
+
+    // 디바이스 타입 체크 함수
+    function checkDevice() {
+      if (window.innerWidth < 768) {
+        // 모바일 영역
+        isMobile = true;
+        isDesktop = false;
+      } else {
+        // 데스크탑 영역
+        isMobile = false;
+        isDesktop = true;
+      }
+    }
+
+    // 디바이스 체크 최초 실행
+    checkDevice();
+
+    $(function () {
+      // resize 시 resizeEnd 이벤트 발생
+      $(window).resize(function () {
+        if (this.resizeTO) {
+          clearTimeout(this.resizeTO);
+        }
+        this.resizeTO = setTimeout(function () {
+          $(this).trigger("resizeEnd");
+        }, 200);
+      });
+
+      // resizeEnd 시 디바이스 타입 재체크
+      $(window).on("resizeEnd", function () {
+        checkDevice();
+      });
+
+      // 슬라이드 실행
+      var tabswiper = new Swiper(".slide", {
+        slidesPerView: 1,
+        centeredSlides: true,
+        loop: true,
+        breakpoints: {
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        },
+      });
+
+      // 탭 클릭시 해당 슬라이드로 이동
+      function handleTabClick(targetSelector, slideIndex, loopIndex) {
+        $(targetSelector).on("click", function (e) {
+          e.preventDefault();
+
+          var dataAttr = $(this).attr("data");
+
+          $(".tab a").removeClass("active");
+          $(this).addClass("active");
+
+          tabswiper.slideToLoop(loopIndex, 900);
+
+          setTimeout(function () {
+            $(".swiper-slide-active[data=" + dataAttr + "]")
+              .find(">a")
+              .focus();
+          }, 900);
+        });
+      }
+
+      // 탭 클릭시 해당 슬라이드로 이동
+      $(".tab>a").on("click", function () {
+        $(".tab>a").attr("title", "");
+        $(this).attr("title", "선택됨");
+
+        handleTabClick(".slide1", 0, 0);
+        handleTabClick(".slide2", 3, 3);
+        handleTabClick(".slide3", 6, 6);
+      });
+
+      // swiper loop이용시 포커스 재 정립 - 접근성 강화
+      $(document).on("keydown", function (e) {
+        var $focus = $(document.activeElement);
+        var $slideFirstIndex = $(".slide .swiper-slide[data-swiper-slide-index='0']");
+        var lastIndex = $(".slide .swiper-slide").length - 1;
+        var $slideLastIndex = $(".slide .swiper-slide[data-swiper-slide-index='" + lastIndex + "']");
+        var $slideFirstDom = $(".slide .swiper-slide").first();
+        var $slideLastDom = $(".slide .swiper-slide").last();
+        var $prevTab = $(".tab a").last();
+        var $nextTab = $(".code_tab button").first();
+
+        if (isMobile) {
+          // TAB (shift 없이)
+          if (e.key === "Tab" && !e.shiftKey) {
+            // 1번 슬라이드로 이동
+            if ($focus[0] === $prevTab[0]) {
+              e.preventDefault();
+              $slideFirstIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 마지막 Dom 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideLastDom[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 마지막 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] == $slideLastIndex[0]) {
+              e.preventDefault();
+              $nextTab.focus();
+            }
+          }
+
+          if (e.key === "Tab" && e.shiftKey) {
+            // 마지막 슬라이드로 이동
+            if ($focus[0] === $nextTab[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 맨 앞 (8번)에 Shift+Tab 하면 마지막(7)로 가게
+            if ($focus.closest(".swiper-slide")[0] === $slideLastIndex[0]) {
+              e.preventDefault();
+              $slideLastDom.find("a, button, input, [tabindex]").last().focus();
+            }
+
+            if ($focus.closest(".swiper-slide")[0] == $slideFirstIndex[0]) {
+              e.preventDefault();
+              $prevTab.focus();
+            }
+          }
+        } else if (isDesktop) {
+          console.log("데스크탑에서만 실행");
+
+          if (e.key === "Tab" && !e.shiftKey) {
+            // 1번 슬라이드로 이동
+            if ($focus[0] === $prevTab[0]) {
+              e.preventDefault();
+              $slideFirstIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+            // swiper 마지막 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideLastIndex[0]) {
+              e.preventDefault();
+              $nextTab.focus();
+            }
+          }
+          if (e.key === "Tab" && e.shiftKey) {
+            // 마지막 슬라이드로 이동
+            if ($focus[0] === $nextTab[0]) {
+              e.preventDefault();
+              $slideLastIndex.find("a, button, input, [tabindex]").first().focus();
+            }
+
+            // swiper 첫번째 슬라이드에서 Tab 눌렀을 때
+            if ($focus.closest(".swiper-slide")[0] === $slideFirstIndex[0]) {
+              e.preventDefault();
+              $prevTab.focus();
+            }
+
+            tabswiper.on("slideChange", function () {
+              setTimeout(function () {
+                $(".slide .swiper-slide-active").find("a, button, input, [tabindex]").first().focus();
+              });
+            });
+          }
+        }
+      });
+    });</code></pre>
+            </div>
+            <script>
+              const tabBtns = document.querySelectorAll(".code_tab button");
+              const codeBoxes = document.querySelectorAll(".code_box");
+
+              tabBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                  const type = btn.dataset.type;
+
+                  // 버튼 클래스 변경
+                  tabBtns.forEach((b) => b.classList.remove("on"));
+                  btn.classList.add("on");
+
+                  // 코드 박스 표시 변경
+                  codeBoxes.forEach((box) => {
+                    box.classList.remove("on");
+                    if (box.classList.contains(type)) box.classList.add("on");
+                  });
+                });
+              });
+
+              hljs.highlightAll();
+
+              // 인코딩
+              // 2. 줄바꿈 및 인코딩 유지 함수
+              function encodeHTML(str) {
+                return str
+                  .replace(/&/g, "&amp;") // 순서 중요!
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;");
+              }
+
+              const rawCode = `<div class="slide_section">
+  <div class="tab">
+    <a href="#;" class="slide1 active" data="slide1" title="선택됨"><span>학사과정</span></a>
+    <a href="#;" class="slide2" data="slide2" title=""><span>전문학사과정</span></a>
+    <a href="#;" class="slide3" data="slide3" title=""><span>전문기술석사과정</span></a>
+  </div>
+  <div class="xscroll">
+    <div class="slide">
+      <ul class="swiper-wrapper">
+        <li class="swiper-slide" data="slide1">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide01.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목1</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide02.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목2</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide03.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목3</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide" data="slide2">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide04.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목4</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide05.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목5</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide06.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목6</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide" data="slide3">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide07.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목7</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+        <li class="swiper-slide">
+          <a href="#;">
+            <div class="img">
+              <img src="../asset/images/img_slide08.jpg" alt="" />
+            </div>
+            <div class="txt">
+              <h3>제목8</h3>
+              <p>텍스트입니다. 텍스트입니다. 텍스트입니다.</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>`;
+              // 4. 인코딩 후 넣기
+              const encoded = encodeHTML(rawCode);
+              document.querySelector(".code_box.html code").innerHTML = encoded;
+            </script>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <link rel="stylesheet" href="../asset/css/common.css" />
+    <link rel="stylesheet" href="../asset/css/pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+    <script src="../asset/js/jquery-3.6.0.min.js"></script>
+    <script src="../asset/js/jquery-ui.js"></script>
+    <script src="../asset/js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <title>프린트 대응 | Work Experience</title>
+  </head>
+  <script></script>
+  <body>
+    <div id="wrap">
+      <section class="work_detail">
+        <div class="inner">
+          <h2 class="work_title">프린트 대응</h2>
+
+          <div class="work_contents"></div>
+
+          <div class="work_tags">
+            <span>#미디어쿼리print</span>
+            <span>#인쇄최적화</span>
+            <span>#컬러조정</span>
+          </div>
+
+          <p class="code_notice">※ 이 코드는 PC 환경에서 확인 시 더 깔끔하게 보입니다.</p>
+          <div class="code_section">
+            <div class="code_tab">
+              <button data-type="html" class="on">HTML</button>
+              <button data-type="css">CSS</button>
+              <button data-type="js">JS</button>
+            </div>
+            <div class="code_content">
+              <pre class="code_box html on"><code>&lt;!-- HTML 코드 예시 --&gt;</code></pre>
+              <pre class="code_box css"><code>.main-popup-area {
+  .main-layer-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+
+    .layer-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: calc(100% - 20px);
+      max-width: 400px;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 10px 10px 7px 10px;
+
+      .top {
+        display: none;
+      }
+
+      .pop-content {
+        > a {
+          display: block;
+
+          > img {
+            width: 100%;
+          }
+        }
+
+        .btm {
+          padding-top: 7px;
+
+          &:after {
+            content: "";
+            display: block;
+            clear: both;
+          }
+
+          .l {
+            float: left;
+            line-height: 30px;
+
+            .ck_box {
+              margin-bottom: 0;
+
+              label {
+                &:before {
+                  top: 7px;
+                }
+              }
+            }
+          }
+
+          .r {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+
+  .popup-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99998;
+  }
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &.bg_white {
+    color: #222;
+    border-color: #222;
+    font-weight: 500;
+  }
+}
+
+.ck_box {
+  display: inline-block;
+  margin-bottom: 6px;
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+
+  input[type="checkbox"] {
+    &:focus + label {
+      outline: 1px dotted #000;
+    }
+
+    &:checked + label:before {
+      background-image: url("../images/ico_check_active.jpg");
+    }
+  }
+
+  label {
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      background: url("../images/ico_check.jpg") no-repeat center/15px;
+    }
+  }
+}</code></pre>
+              <pre class="code_box js"><code>// 레이어팝업 (오늘 하루 보이지 않기)
+    function PopupCloseDay(winName) {
+      var ckBox = $(winName).parents(".main-layer-popup").find("input");
+      console.log(ckBox);
+      var id = $(winName).parents(".main-layer-popup").attr("id");
+      if ($(ckBox).prop("checked")) {
+        mainPopupSetCookie(id, "done", 1);
+      }
+      $("#" + id).remove();
+      console.log($(".main-layer-popup").length);
+      if (!$(".main-layer-popup").length) {
+        $(".main-popup-area").remove();
+      }
+    }
+
+    // 레이어 팝업 닫기
+    function closePopup(obj) {
+      $(obj).parents(".main-layer-popup").hide();
+    }
+
+    // 레이어 팝업 쿠키 찾기
+    function popupGetCookie(name) {
+      var nameOfCookie = name + "=";
+      var x = 0;
+      while (x <= document.cookie.length) {
+        var y = x + nameOfCookie.length;
+        if (document.cookie.substring(x, y) == nameOfCookie) {
+          if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) endOfCookie = document.cookie.length;
+          return unescape(document.cookie.substring(y, endOfCookie));
+        }
+        x = document.cookie.indexOf(" ", x) + 1;
+        if (x == 0) break;
+      }
+      return "";
+    }
+
+    // 레이어 팝업 쿠키 생성
+    function mainPopupSetCookie(name, value, expiredays) {
+      var todayDate = new Date();
+      todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000);
+      if (todayDate > new Date()) {
+        expiredays = expiredays - 1;
+      }
+      todayDate.setDate(todayDate.getDate() + expiredays);
+      document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+    }</code></pre>
+            </div>
+            <script>
+              const tabBtns = document.querySelectorAll(".code_tab button");
+              const codeBoxes = document.querySelectorAll(".code_box");
+
+              tabBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                  const type = btn.dataset.type;
+
+                  // 버튼 클래스 변경
+                  tabBtns.forEach((b) => b.classList.remove("on"));
+                  btn.classList.add("on");
+
+                  // 코드 박스 표시 변경
+                  codeBoxes.forEach((box) => {
+                    box.classList.remove("on");
+                    if (box.classList.contains(type)) box.classList.add("on");
+                  });
+                });
+              });
+
+              hljs.highlightAll();
+
+              // 인코딩
+              // 2. 줄바꿈 및 인코딩 유지 함수
+              function encodeHTML(str) {
+                return str
+                  .replace(/&/g, "&amp;") // 순서 중요!
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;");
+              }
+
+              const rawCode = `<div class="main-popup-area">
+  <div class="main-layer-popup" id="popup1" tabindex="0">
+    <div class="layer-popup">
+      <div class="top">
+        [고객홍보팀] 보도 해명자료
+        <a href="#n" onclick="closePopup(this);return false;"><span class="blind">CLOSE</span></a>
+      </div>
+      <div class="pop-content">
+        <a href="#;" target="_blank" title="새창">
+          <img src="../asset/images/img_work_popup.png" alt="" />
+        </a>
+        <div class="btm">
+          <div class="l">
+            <span class="ck_box">
+              <input type="checkbox" id="popcheck" class="blind" name="check" />
+              <label for="popcheck">오늘 하루 이 창 닫기</label>
+            </span>
+          </div>
+          <div class="r">
+            <a href="#n" class="btn bg_white" onclick="PopupCloseDay(this);return false;">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+              // 4. 인코딩 후 넣기
+              const encoded = encodeHTML(rawCode);
+              document.querySelector(".code_box.html code").innerHTML = encoded;
+            </script>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

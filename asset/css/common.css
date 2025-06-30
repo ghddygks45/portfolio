@@ -167,25 +167,25 @@ select::-ms-expand {
 
 @font-face {
   font-family: "NotoSansKR";
-  src: url("../fonts/notosnas/NotoSansKR-Light.woff2") format("woff2");
+  src: url("../fonts/notosans/NotoSans-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: "NotoSansKR";
-  src: url("../fonts/notosnas/NotoSansKR-Light.woff2") format("woff2");
+  src: url("../fonts/notosans/NotoSans-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "NotoSansKR";
-  src: url("../fonts/notosnas/NotoSansKR-Light.woff2") format("woff2");
+  src: url("../fonts/notosans/NotoSans-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: "NotoSansKR";
-  src: url("../fonts/notosnas/NotoSansKR-Light.woff2") format("woff2");
+  src: url("../fonts/notosans/NotoSans-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
@@ -1069,27 +1069,24 @@ body {
   position: relative;
   padding: 20rem 0;
   margin-top: 15rem;
+  background: #10141c;
   overflow: hidden;
 }
-#Work .work_bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-#Work .work_bg:after {
+#Work::before, #Work::after {
   content: "";
   position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle, rgba(0, 191, 255, 0.06) 0%, transparent 60%);
+  animation: waveMove 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
-#Work .work_bg video {
-  height: 100%;
+#Work::after {
+  animation-delay: 10s;
+  transform: rotate(60deg);
 }
 #Work .inner {
   position: relative;
@@ -1104,23 +1101,44 @@ body {
 }
 .work_box .work_list > li {
   display: none;
+  flex-direction: column;
+  height: 100%;
 }
 .work_box .work_list a {
-  display: block;
+  flex-shrink: 0;
 }
 .work_box .work_img_sec {
   position: relative;
+  width: 100%;
+  padding-top: 100%;
+  background: #fff;
+  border-radius: 100%;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: float 2.5s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.15);
+  overflow: hidden;
 }
-.work_box .work_img_sec:hover, .work_box .work_img_sec:focus {
-  transform: rotate(-15deg);
+.work_box .work_img_sec:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4), 0 0 30px rgba(0, 191, 255, 0.2), 0 0 45px rgba(0, 191, 255, 0.1);
+}
+.work_box .work_img_sec:hover > img {
+  transform: translate(-50%, -50%) scale(1.08);
 }
 .work_box .work_img_sec img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s ease;
+}
+.work_box .work_img_sec.w_auto img {
+  width: auto;
+  height: auto;
   max-width: 100%;
-  border-radius: 100%;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.15);
-  animation: float 2.5s ease-in-out infinite;
 }
 .work_box .work_dsec {
   margin-top: 4rem;
@@ -1141,6 +1159,14 @@ body {
   border-radius: 5px;
   color: #ffe0b2;
   box-shadow: 0 0 8px rgba(255, 165, 0, 0.4), 0 0 16px rgba(255, 140, 0, 0.2);
+}
+.work_box .work_dsec .work_subj .mainpage {
+  display: inline-block;
+  padding: 0.3rem 2rem;
+  border: solid 1px #c8e6c9;
+  border-radius: 5px;
+  color: #c8e6c9;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.4), 0 0 16px rgba(56, 142, 60, 0.2);
 }
 .work_box .work_dsec > p {
   margin-top: 1.5rem;
@@ -1174,7 +1200,7 @@ body {
   transition: color 0.3s ease;
 }
 .work_box .work_btn_box .work_more_btn:hover {
-  color: #111;
+  color: #10141c;
   font-weight: 500;
 }
 .work_box .work_btn_box .work_more_btn:hover:before {
@@ -1204,6 +1230,9 @@ body {
   background-size: cover;
   pointer-events: none;
   transition: height 0.5s, opacity 0.5s 0.1s;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 .cursor .img_box.on {
   height: 200px;
@@ -1282,29 +1311,29 @@ body {
   display: block;
   width: calc(100% - 4rem);
   height: 1px;
-  background: #efefef;
+  background: #2f2f2f;
 }
 .skill_box .skill_list > li > a {
   display: flex;
   width: 100%;
   padding: 2rem;
-  gap: 1rem;
-  background: #333;
+  gap: 2rem;
+  background: #1e1e1e;
   align-items: center;
   min-height: 10rem;
   word-break: break-word;
 }
 .skill_box .skill_list > li > a:hover .skill_name_box strong, .skill_box .skill_list > li > a:focus .skill_name_box strong {
-  color: #ffe0b2;
+  color: #ffd180;
 }
 .skill_box .skill_list > li > a:hover .skill_name_box strong > b:before, .skill_box .skill_list > li > a:focus .skill_name_box strong > b:before {
-  background: #ffe0b2;
+  background: #ffd180;
 }
 .skill_box .skill_list > li > a .skill_name_box {
-  flex-shrink: 0;
+  flex: 1;
 }
 .skill_box .skill_list > li > a .skill_name_box > strong {
-  color: #fff;
+  color: #f0f0f0;
   font-weight: 400;
   transition: color 0.5s ease;
 }
@@ -1322,13 +1351,13 @@ body {
   right: -11px;
   width: 1px;
   height: calc(100% - 8px);
-  background: #efefef;
+  background: #3f3f3f;
   transform: translateY(4px);
   transition: background 0.5s ease;
 }
 .skill_box .skill_list > li > a > p {
   flex: 1;
-  color: #e1e1e1;
+  color: #b0b0b0;
   text-align: right;
 }
 
@@ -1445,12 +1474,12 @@ body {
     padding: 0 5rem;
   }
   .work_box .work_list {
-    -moz-column-gap: 4rem;
-         column-gap: 4rem;
+    -moz-column-gap: 8rem;
+         column-gap: 8rem;
     row-gap: 15rem;
   }
   .work_box .work_list > li {
-    flex: 0 0 calc(33.3% - 3rem);
+    flex: 0 0 calc((100% - 16rem) / 3);
   }
   .work_box .work_btn_box {
     margin-top: 10rem;
@@ -1473,6 +1502,9 @@ body {
   .inner {
     padding: 0 10rem;
   }
+  #Work .inner {
+    padding: 0 10rem;
+  }
 }
 @keyframes float {
   0% {
@@ -1483,5 +1515,16 @@ body {
   }
   100% {
     transform: translateY(0);
+  }
+}
+@keyframes waveMove {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10%, 10%) rotate(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
   }
 }
