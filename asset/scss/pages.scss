@@ -463,3 +463,63 @@
     }
   }
 }
+
+// 프린트
+
+.print_btn_box {
+  padding: 5rem;
+
+  .print {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
+    background-image: url("../images/ico_print.png");
+    transition: background 0.2s ease-in-out;
+
+    &:hover,
+    &:focus {
+      background-image: url("../images/ico_print_hover.png");
+    }
+  }
+}
+
+// 로딩
+.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100000;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .spin {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    border: 0.8rem solid #ccc;
+    border-top-color: #111;
+    animation: loader 1s linear infinite;
+  }
+
+  .id_msg {
+    margin-top: 2rem;
+    font-size: 1.6rem;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

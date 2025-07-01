@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <link rel="stylesheet" href="../asset/css/common.css" />
+    <link rel="stylesheet" href="../asset/css/pages.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+    <script src="../asset/js/jquery-3.6.0.min.js"></script>
+    <script src="../asset/js/jquery-ui.js"></script>
+    <script src="../asset/js/ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <title>프린트 대응 | Work Experience</title>
+  </head>
+
+  <script>
+    function fn_action_printing() {
+      window.open("print.html", "", "width=900,height=600,left=50,bottom=0,scrollbars=yes");
+      return false;
+    }
+  </script>
+
+  <body>
+    <div id="wrap">
+      <section class="work_detail">
+        <div class="inner">
+          <h2 class="work_title">프린트 대응</h2>
+
+          <div class="work_contents">
+            <div class="print_btn_box">
+              <button type="button" class="print" onclick="fn_action_printing();"><span class="blind">인쇄</span></button>
+            </div>
+          </div>
+
+          <div class="work_tags">
+            <span>#미디어쿼리print</span>
+            <span>#인쇄최적화</span>
+          </div>
+
+          <p class="code_notice">※ 이 코드는 PC 환경에서 확인 시 더 깔끔하게 보입니다.</p>
+          <div class="code_section" id="print-area">
+            <div class="code_tab">
+              <button data-type="html" class="on">HTML</button>
+              <button data-type="css">CSS</button>
+              <button data-type="js">JS</button>
+            </div>
+            <script></script>
+            <div class="code_content">
+              <pre class="code_box html on"><code>&lt;!-- HTML 코드 예시 --&gt;</code></pre>
+              <pre class="code_box css"><code>.print_btn_box {
+  padding: 5rem;
+
+  .print {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
+    background-image: url("../images/ico_print.png");
+    transition: background 0.2s ease-in-out;
+
+    &:hover,
+    &:focus {
+      background-image: url("../images/ico_print_hover.png");
+    }
+  }
+}</code></pre>
+              <pre class="code_box js"><code>$(function () {
+        var content = $(opener.document).find("#print-area").html();
+        $(".print_box").append(content);
+        setTimeout(function () {
+          window.print();
+        }, 800);
+      });</code></pre>
+            </div>
+            <script>
+              const tabBtns = document.querySelectorAll(".code_tab button");
+              const codeBoxes = document.querySelectorAll(".code_box");
+
+              tabBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                  const type = btn.dataset.type;
+
+                  // 버튼 클래스 변경
+                  tabBtns.forEach((b) => b.classList.remove("on"));
+                  btn.classList.add("on");
+
+                  // 코드 박스 표시 변경
+                  codeBoxes.forEach((box) => {
+                    box.classList.remove("on");
+                    if (box.classList.contains(type)) box.classList.add("on");
+                  });
+                });
+              });
+
+              hljs.highlightAll();
+
+              // 인코딩
+              // 2. 줄바꿈 및 인코딩 유지 함수
+              function encodeHTML(str) {
+                return str
+                  .replace(/&/g, "&amp;") // 순서 중요!
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;");
+              }
+
+              const rawCode = `<div class="print_box"></div>`;
+              // 4. 인코딩 후 넣기
+              const encoded = encodeHTML(rawCode);
+              document.querySelector(".code_box.html code").innerHTML = encoded;
+            </script>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

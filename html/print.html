@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <link rel="stylesheet" href="../asset/css/common.css" />
+    <link rel="stylesheet" href="../asset/css/pages.css" />
+    <script src="../asset/js/jquery-3.6.0.min.js"></script>
+    <title>프린트</title>
+    <style>
+      .code_tab {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .code_tab button {
+        padding: 1rem 2rem;
+        font-size: 1.4rem;
+        background: #222;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .code_tab button.on {
+        background: #fff;
+        color: #111;
+      }
+      .code_content .code_box {
+        display: none;
+        text-align: left;
+        background: #1e1e1e;
+        padding: 2rem;
+        border-radius: 10px;
+        font-family: "Fira Code", monospace;
+        font-size: 1.4rem;
+      }
+      .code_content .code_box.on {
+        display: block;
+      }
+      .code_content .code_box code {
+        height: auto;
+        display: block;
+        padding: 2rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+        white-space: break-spaces;
+      }
+      pre code.hljs {
+        overflow: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      $(function () {
+        var content = $(opener.document).find("#print-area").html();
+        $(".print_box").append(content);
+        setTimeout(function () {
+          window.print();
+        }, 800);
+      });
+    </script>
+    <div class="print_box"></div>
+  </body>
+</html>
