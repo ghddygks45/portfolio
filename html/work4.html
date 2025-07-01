@@ -22,11 +22,11 @@
   <script>
     function fn_action_printing() {
       loader("on", "잠시만 기다려주세요.");
-      // setTimeout(function () {
-      //   window.open("print.html", "", "width=1280,height=900,left=0,scrollbars=yes");
-      //   loader("off");
-      // }, 2000);
-      // return false;
+      setTimeout(function () {
+        window.open("print.html", "", "width=1280,height=900,left=0,scrollbars=yes");
+        loader("off");
+      }, 2000);
+      return false;
     }
 
     function loader(mode, msg) {

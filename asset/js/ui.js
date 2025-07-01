@@ -1,229 +1,310 @@
-var mql = window.matchMedia("all and (min-width: 768px)");
+/**************************************************
+ * 반응형 디바이스 체크 (모바일/PC)
+ **************************************************/
 
-// 디바이스 체크
+const mql = window.matchMedia("all and (min-width: 768px)");
+const htmlTag = document.documentElement;
+
 function deviceCheck() {
   if (mql.matches) {
-    $("html").removeClass("mobile").addClass("desktop");
+    htmlTag.classList.remove("mobile", "ios-device");
+    htmlTag.classList.add("desktop");
   } else {
-    var varUA = navigator.userAgent.toLowerCase();
-    if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
-      $("html").removeClass("desktop").addClass("mobile ios-device");
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("ipod")) {
+      htmlTag.classList.remove("desktop");
+      htmlTag.classList.add("mobile", "ios-device");
     } else {
-      $("html").removeClass("desktop").addClass("mobile");
+      htmlTag.classList.remove("desktop");
+      htmlTag.classList.add("mobile");
     }
   }
 }
 deviceCheck();
+mql.addEventListener("change", deviceCheck);
 
-// 초기 보여줄 개수 판단 함수
-function workCount() {
-  const width = window.innerWidth;
-  if (width < 768) return 1; // 모바일
-  if (width < 1024) return 2; // 태블릿
-  return 3; // 데스크탑
-}
-
-$(function () {
-  // 반응형 체크
-  mql.addListener(function () {
-    deviceCheck();
-  });
-
-  if ($("html").hasClass("mobile")) {
-    // 모바일 일때
-    $(document).on("click", ".gnb a", function (e) {
-      e.preventDefault();
-      $(".gnb_wrap").removeClass("open");
-      $(".header_box .menu_btn_box").removeClass("active");
-      $(".menu_btn_box").find(".blind").text("메뉴 열기");
+document.addEventListener("DOMContentLoaded", function () {
+  /**************************************************
+   * 메뉴 관련
+   **************************************************/
+  if (htmlTag.classList.contains("mobile")) {
+    document.querySelectorAll(".gnb a").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.querySelector(".gnb_wrap").classList.remove("open");
+        var menuBtnBox = document.querySelector(".header_box .menu_btn_box");
+        menuBtnBox.classList.remove("active");
+        menuBtnBox.querySelector(".blind").textContent = "메뉴 열기";
+      });
     });
-  } else {
-    // PC 일때
   }
 
-  $(document).on("click", ".header_box .menu_btn_box", function () {
-    $(".gnb_wrap").toggleClass("open");
-    $(this).toggleClass("active");
-    if ($(this).hasClass("open")) {
-      $(this).find(".blind").text("메뉴 닫기");
-    } else {
-      $(this).find(".blind").text("메뉴 열기");
-    }
+  document.querySelectorAll(".header_box .menu_btn_box").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var gnbWrap = document.querySelector(".gnb_wrap");
+      gnbWrap.classList.toggle("open");
+      this.classList.toggle("active");
+
+      if (this.classList.contains("open")) {
+        this.querySelector(".blind").textContent = "메뉴 닫기";
+      } else {
+        this.querySelector(".blind").textContent = "메뉴 열기";
+      }
+    });
   });
 
+  /**************************************************
+   * 스크롤 방향에 따른 헤더 show/hide
+   **************************************************/
   let lastScrollTop = 0;
+  window.addEventListener("scroll", function () {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
 
-  $(window).on("scroll", function () {
-    let st = $(this).scrollTop();
+    const headerWrap = document.querySelector(".header_wrap");
 
     if (st === 0) {
-      // 맨 위일 때 항상 헤더 보이기
-      $(".header_wrap").removeClass("up shadow down");
+      headerWrap.classList.remove("up", "shadow", "down");
     } else if (st > lastScrollTop) {
-      // Scroll Down → 헤더 숨기기
-      $(".header_wrap").removeClass("down").addClass("up");
+      headerWrap.classList.remove("down");
+      headerWrap.classList.add("up");
     } else if (st < lastScrollTop) {
-      // Scroll Up → 헤더 보이기
-      $(".header_wrap").removeClass("up").addClass("down shadow");
+      headerWrap.classList.remove("up");
+      headerWrap.classList.add("down", "shadow");
     } else {
-      $(".header_wrap").removeClass("up down shadow");
+      headerWrap.classList.remove("up", "down", "shadow");
     }
 
     lastScrollTop = st;
   });
 
-  // 백그라운드 비디오 속도
-  const videoEl = $(".main_bg video").get(0);
+  /**************************************************
+   * 백그라운드 비디오 속도
+   **************************************************/
+  const videoEl = document.querySelector(".main_bg video");
   if (videoEl) {
     videoEl.playbackRate = 0.5;
   }
-  // $(".work_bg video").get(0).playbackRate = 0.5;
 
-  // gsap
+  /**************************************************
+   * GSAP 애니메이션
+   **************************************************/
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
 
-  $(document).on("click", ".gnb a", function (e) {
-    e.preventDefault(); // 기본 앵커 동작 방지
+  // 메뉴 클릭 시 해당 섹션으로 이동
+  document.querySelectorAll(".gnb a").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute("href"));
+      var offsetTop = target.offsetTop;
 
-    const target = $(this).attr("href");
-    const offsetTop = $(target).offset().top;
-
-    gsap.to(window, {
-      duration: 2,
-      scrollTo: offsetTop,
-      ease: "power4.inOut",
+      gsap.to(window, {
+        duration: 2,
+        scrollTo: offsetTop,
+        ease: "power4.inOut",
+      });
     });
   });
 
-  // let tl = gsap.timeline();
+  // 슬로건 타임라인 애니메이션
+  const sloganItems = document.querySelectorAll(".slogan_box [class^='time_ani']");
+  const sloganTl = gsap.timeline();
 
-  // tl.to(".profile", {x:600, duration: 2});
-  // tl.to(".resume_box", {x:300, duration: 1});
-
-  // 슬로건 애니메이션
-  const slogan_items = $(".slogan_box [class^='time_ani']");
-  const slogan_tl = gsap.timeline();
-
-  slogan_items.each((index, el) => {
-    slogan_tl.to(el, { opacity: 1, duration: 1 }).to(el, { opacity: 0, duration: 0.8, delay: 1 }); // 1초 유지 후 사라짐
+  sloganItems.forEach(function (el) {
+    sloganTl.to(el, { opacity: 1, duration: 1 }).to(el, { opacity: 0, duration: 0.8, delay: 1 });
   });
 
-  slogan_tl.to(slogan_items, {
-    onStart: () => {
-      $(slogan_items).css("position", "relative");
+  sloganTl.to(sloganItems, {
+    onStart: function () {
+      sloganItems.forEach(function (item) {
+        item.style.position = "relative";
+      });
     },
     duration: 1,
     opacity: 1,
   });
 
-  // slogan_tl.to(slogan_items, { duration: 1, opacity: 1 });
-
-  // tl.to(".slogan_box .time_ani1", { duration: 1, opacity: 1 })
-  //   .to(".slogan_box .time_ani1", { duration: 0.8, opacity: 0, delay: 1 }) // 1초 유지 후 사라짐
-
-  //   .to(".slogan_box .time_ani2", { duration: 1, opacity: 1 })
-  //   .to(".slogan_box .time_ani2", { duration: 0.8, opacity: 0, delay: 1 })
-
-  //   .to(".slogan_box .time_ani3", { duration: 1, opacity: 1 })
-  //   .to(".slogan_box .time_ani3", { duration: 0.8, opacity: 0, delay: 1 })
-
-  //   .to(".slogan_box .time_ani4", { duration: 1, opacity: 1 })
-  //   .to(".slogan_box .time_ani4", { duration: 0.8, opacity: 0, delay: 1 });
-
-  // GSAP 애니메이션
-
-  const items = $(".work_list>li");
-
-  // 초기 표시
-  let RoadworkCount = workCount();
-
-  // 로드 시 일부만 보여주기
-  items.each((item, index) => {
-    if (item < RoadworkCount) {
-      $(index).fadeIn().css("display", "flex");
-    }
-  });
-
-  // 더보기 클릭 시 전체 보여주기
-  $(document).on("click", ".work_more_btn", function () {
-    items.each((item, index) => {
-      $(index).fadeIn().css("display", "flex");
-    });
-    $(".work_more_btn").fadeOut();
-  });
-
-  // 리사이즈 시 다시 조정
-  $(window).on("resize", function () {
-    const newCount = workCount();
-
-    if ($(".work_more_btn").is(":visible")) {
-      items.each(function (i) {
-        if (i < newCount) {
-          $(this).fadeIn().css("display", "flex");
-        } else {
-          $(this).fadeOut();
-        }
+  // 타이틀 애니메이션
+  document.querySelectorAll(".section").forEach(function (section) {
+    const titBox = section.querySelector(".tit_box");
+    if (titBox) {
+      gsap.from(titBox, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top-=100 top",
+          end: "center center",
+        },
+        x: -100,
+        opacity: 0,
+        duration: 0.5,
       });
     }
   });
 
-  // wroksection
+  // #About
+  const AboutTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#About",
+      start: "top-=100 top",
+      end: "bottom center",
+    },
+  });
+  AboutTl.from(".profile_box .l", { y: 100, opacity: 0, duration: 0.5, delay: 0.5 })
+    .from(".profile_box .r", { y: 100, opacity: 0, duration: 0.5 })
+    .from(".resume_box", { x: 100, opacity: 0, duration: 1.5, delay: 0.3 });
 
-  // 프로젝트 호버시 마우스 이미지 변경
-  let cursorImgBox = $(".cursor .img_box");
-  let workLinks = $(".skill_list a");
+  // #Work
+  const WorkTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#Work",
+      start: "top-=100 top",
+      end: "bottom center",
+    },
+  });
+  WorkTl.from(".work_list a", { rotate: 720, duration: 1, opacity: 0, delay: 0.5 })
+    .from(".work_dsec", { y: 100, opacity: 0, duration: 0.5, delay: 0.5 })
+    .from(".work_btn_box", { y: 100, opacity: 0, duration: 1.5, delay: 0.3 });
 
-  // 커서 이동시 이미지박스 함께 이동
-  $(document).on("mousemove", function (e) {
-    cursorImgBox.stop().css({
-      top: e.clientY + "px",
-      left: e.clientX + "px",
-    });
-    cursorImgBox.stop().animate(
+  // #Contact
+  new SplitText(".footer_slogan", {
+    type: "chars",
+    charsClass: "char",
+    reduceWhiteSpace: false,
+  });
+
+  const ContactTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#Contact",
+      start: "top-=30 top",
+      end: "bottom center",
+    },
+  });
+
+  ContactTl.from(".char", {
+    y: -20,
+    opacity: 0,
+    duration: 0.5,
+    ease: "power3.out",
+    stagger: {
+      each: 0.05,
+      from: "start",
+    },
+  })
+    .from(".footer_contact", { y: 100, opacity: 0, duration: 0.3 })
+    .from(".footer_copyright", { y: 100, opacity: 0, duration: 0.1 })
+    .to(
+      ".highlight .char",
       {
-        top: e.clientY,
-        left: e.clientX,
+        y: "-4vw",
+        scale: 1.2,
+        color: "#6C5CE7",
+        duration: 1,
+        ease: "back.out(1.7)",
+        stagger: {
+          each: 0.05,
+          from: "center",
+        },
       },
-      2000
+      "+=0.3"
     );
+
+  gsap.from(".skill_box", {
+    scrollTrigger: {
+      trigger: "#Skills",
+      start: "top top",
+      end: "bottom center",
+    },
+    clipPath: "inset(50% 0 50% 0)",
+    duration: 1,
+    opacity: 0,
+    scale: 0.9,
+    ease: "power2.out",
   });
 
-  // 모바일에서 터치 되었을 때 이미지 박스 이동
-  $(document).on("touchstart", function (e) {
-    e.preventDefault();
-    let touch = e.originalEvent.touches[0];
-
-    cursorImgBox.stop().css({
-      top: touch.clientY + "px",
-      left: touch.clientX + "px",
-    });
-  });
-
-  workLinks.each(function () {
-    const $target = $(this); // a를 반환
-    const imageUrl = $target.data("img"); // data-img 속성 값
-    const $cursorImg = $(imageUrl); // 선택자 문자열로 요소 찾기
-
-    $target.on("mouseover touchstart", function () {
-      cursorImgBox.addClass("on");
-      $cursorImg.addClass("on");
-    });
-
-    $target.on("mouseout touchend", function () {
-      cursorImgBox.removeClass("on");
-      $cursorImg.removeClass("on");
-    });
-  });
-
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-  // 부드러운 스크롤
-  const lenis = new Lenis();
-
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+  /**************************************************
+   * #Work 섹션 프로젝트 리스트 개수 설정
+   **************************************************/
+  function workCount() {
+    const width = window.innerWidth;
+    if (width < 768) return 1;
+    if (width < 1024) return 2;
+    return 3;
   }
 
-  requestAnimationFrame(raf);
+  const items = document.querySelectorAll(".work_list > li");
+
+  function showWorkItems(count) {
+    items.forEach(function (el, index) {
+      if (index < count) {
+        el.style.display = "flex";
+        el.style.opacity = "1";
+      } else {
+        el.style.display = "none";
+      }
+    });
+  }
+
+  let initialCount = workCount();
+  showWorkItems(initialCount);
+
+  document.querySelector(".work_more_btn")?.addEventListener("click", function () {
+    showWorkItems(items.length);
+    this.style.display = "none";
+  });
+
+  window.addEventListener("resize", function () {
+    const newCount = workCount();
+    if (document.querySelector(".work_more_btn")?.offsetParent !== null) {
+      showWorkItems(newCount);
+    }
+  });
+
+  /**************************************************
+   * 마우스 커서 + 이미지 연동
+   **************************************************/
+  const cursorImgBox = document.querySelector(".cursor .img_box");
+  const workLinks = document.querySelectorAll(".skill_list a");
+
+  document.addEventListener("mousemove", function (e) {
+    cursorImgBox.style.top = e.clientY + "px";
+    cursorImgBox.style.left = e.clientX + "px";
+  });
+
+  document.addEventListener("touchstart", function (e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    cursorImgBox.style.top = touch.clientY + "px";
+    cursorImgBox.style.left = touch.clientX + "px";
+  });
+
+  workLinks.forEach(function (link) {
+    const imageUrl = link.getAttribute("data-img");
+    const cursorImg = document.querySelector(imageUrl);
+
+    link.addEventListener("mouseover", function () {
+      cursorImgBox.classList.add("on");
+      cursorImg.classList.add("on");
+    });
+    link.addEventListener("mouseout", function () {
+      cursorImgBox.classList.remove("on");
+      cursorImg.classList.remove("on");
+    });
+
+    link.addEventListener("touchstart", function () {
+      cursorImgBox.classList.add("on");
+      cursorImg.classList.add("on");
+    });
+    link.addEventListener("touchend", function () {
+      cursorImgBox.classList.remove("on");
+      cursorImg.classList.remove("on");
+    });
+  });
+
+  /**************************************************
+   * 브라우저 부드러운 스크롤
+   **************************************************/
+  const lenis = new Lenis();
+  requestAnimationFrame(function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  });
 });
